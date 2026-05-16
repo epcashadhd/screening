@@ -4,6 +4,8 @@ const dassBands = {
   stress: [[0, 14, "正常", "Normal"], [15, 18, "輕度", "Mild"], [19, 25, "中度", "Moderate"], [26, 33, "嚴重", "Severe"], [34, 42, "極嚴重", "Extremely Severe"]]
 };
 
+lockViewportZoom();
+
 const questionnaires = {
   "phq9": {
     id: "phq9",
@@ -639,3 +641,28 @@ function escapeHtml(value) {
 }
 
 buildPrintReport();
+
+function lockViewportZoom() {
+  document.addEventListener("gesturestart", preventZoomGesture, { passive: false });
+  document.addEventListener("gesturechange", preventZoomGesture, { passive: false });
+  document.addEventListener("gestureend", preventZoomGesture, { passive: false });
+
+  document.addEventListener("touchmove", (event) => {
+    if (event.touches && event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }, { passive: false });
+
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", (event) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+}
+
+function preventZoomGesture(event) {
+  event.preventDefault();
+}
