@@ -440,7 +440,7 @@ function buildPrintReport() {
     const label = value === undefined
       ? "未作答"
       : formatText(questionnaire.responseOptions.find((option) => option.value === value).label);
-    return `<tr><td>${item.number}</td><td>${formatText(item.text)}</td><td>${value ?? "-"}</td><td>${label}</td></tr>`;
+    return `<tr><td>${item.number}</td><td>${formatText(item.text)}</td><td>${value === undefined ? "-" : value}</td><td>${label}</td></tr>`;
   }).join("");
 
   printReport.innerHTML = `
@@ -465,7 +465,7 @@ function buildPrintReport() {
       <tr><th>項目</th><th>分數</th><th>程度</th></tr>
       ${scoreRows}
     </table>
-    ${result?.riskMessage ? `<div class="alert">${result.riskMessage}</div>` : ""}
+    ${result && result.riskMessage ? `<div class="alert">${result.riskMessage}</div>` : ""}
 
     <h2>評分準則</h2>
     ${buildRubricHtml(questionnaire)}
@@ -494,7 +494,9 @@ function showPage(pageName) {
     unlock: "等待解鎖",
     result: "結果摘要"
   }[pageName];
-  globalThis.scrollTo?.(0, 0);
+  if (typeof window !== "undefined" && typeof window.scrollTo === "function") {
+    window.scrollTo(0, 0);
+  }
 }
 
 function updateCompletion() {
@@ -629,11 +631,11 @@ function hideError(id) {
 
 function escapeHtml(value) {
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 buildPrintReport();
