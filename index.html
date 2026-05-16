@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>情緒健康評估平台</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -33,7 +33,11 @@
                 <span>出生日期</span>
                 <span class="age-preview">年齡：<strong id="clientAgeText">未填寫</strong></span>
               </span>
-              <input id="clientDob" type="date" />
+              <div class="date-selects" aria-label="出生日期">
+                <select id="dobYear" aria-label="出生年份"></select>
+                <select id="dobMonth" aria-label="出生月份"></select>
+                <select id="dobDay" aria-label="出生日子"></select>
+              </div>
             </label>
             <label>
               學校 / 機構
@@ -60,7 +64,7 @@
               </div>
             </label>
             <label>
-              結果密碼
+              設定查看結果密碼
               <input id="resultPassword" type="password" autocomplete="new-password" placeholder="查看結果密碼" />
             </label>
             <label>

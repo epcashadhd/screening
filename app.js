@@ -162,6 +162,7 @@ const state = {
   selected: "phq9",
   language: "zh",
   answers: {},
+  showMissing: false,
   password: ""
 };
 
@@ -183,6 +184,7 @@ const riskNotice = document.querySelector("#riskNotice");
 const rubricSummary = document.querySelector("#rubricSummary");
 const printReport = document.querySelector("#printReport");
 
+populateDobSelectors();
 document.querySelector("#assessmentDate").valueAsDate = new Date();
 updateAgeDisplay();
 
@@ -213,11 +215,15 @@ document.querySelector("#printButton").addEventListener("click", () => {
   window.print();
 });
 
-["clientName", "clientDob", "clientSchool", "assessmentDate", "clientNotes", "reportNotes"].forEach((id) => {
-  document.querySelector(`#${id}`).addEventListener("input", () => {
-    if (id === "clientDob" || id === "assessmentDate") updateAgeDisplay();
+["clientName", "dobYear", "dobMonth", "dobDay", "clientSchool", "assessmentDate", "clientNotes", "reportNotes"].forEach((id) => {
+  const handleFieldUpdate = () => {
+    if (id === "dobYear" || id === "dobMonth") updateDobDays();
+    if (id === "dobYear" || id === "dobMonth" || id === "dobDay" || id === "assessmentDate") updateAgeDisplay();
     buildPrintReport();
-  });
+  };
+
+  document.querySelector(`#${id}`).addEventListener("input", handleFieldUpdate);
+  document.querySelector(`#${id}`).addEventListener("change", handleFieldUpdate);
 });
 
 function startQuestionnaire() {
@@ -237,6 +243,7 @@ function startQuestionnaire() {
   hideError("setupError");
   state.password = password;
   state.answers = {};
+  state.showMissing = false;
   renderQuestionnaire();
   showPage("client");
 }
@@ -246,10 +253,14 @@ function submitQuestionnaire() {
   const answered = Object.keys(state.answers).length;
 
   if (answered < questionnaire.items.length) {
+    state.showMissing = true;
+    markMissingQuestions();
     showError("clientError", `尚有 ${questionnaire.items.length - answered} 題未完成。請先完成所有題目。`);
     return;
   }
 
+  state.showMissing = false;
+  markMissingQuestions();
   hideError("clientError");
   document.querySelector("#unlockPassword").value = "";
   showPage("unlock");
@@ -292,7 +303,7 @@ function renderQuestionnaire() {
     }).join("");
 
     return `
-      <div class="question-row">
+      <div class="question-row" data-item-id="${item.id}">
         <p class="question-text"><span class="question-number">${item.number}.</span> ${formatText(item.text)}</p>
         <div class="options">${options}</div>
       </div>
@@ -302,12 +313,31 @@ function renderQuestionnaire() {
   form.querySelectorAll("input[type='radio']").forEach((input) => {
     input.addEventListener("change", () => {
       state.answers[input.name] = Number(input.value);
-      renderQuestionnaire();
+      updateSelectedOption(input);
+      markMissingQuestions();
+      if (state.showMissing && Object.keys(state.answers).length === currentQuestionnaire().items.length) hideError("clientError");
+      updateCompletion();
+      buildPrintReport();
     });
   });
 
   updateCompletion();
   buildPrintReport();
+}
+
+function updateSelectedOption(input) {
+  form.querySelectorAll(`input[name="${input.name}"]`).forEach((radio) => {
+    radio.closest(".option").classList.toggle("selected", radio.checked);
+  });
+}
+
+function markMissingQuestions() {
+  const questionnaire = currentQuestionnaire();
+  questionnaire.items.forEach((item) => {
+    const row = form.querySelector(`[data-item-id="${item.id}"]`);
+    if (!row) return;
+    row.classList.toggle("missing-question", state.showMissing && state.answers[item.id] === undefined);
+  });
 }
 
 function renderResults() {
@@ -418,7 +448,7 @@ function buildPrintReport() {
     <h2>個案資料</h2>
     <table>
       <tr><th>個案姓名 / 編號</th><td>${escapeHtml(field("clientName"))}</td></tr>
-      <tr><th>出生日期</th><td>${escapeHtml(field("clientDob"))}</td></tr>
+      <tr><th>出生日期</th><td>${escapeHtml(getDobDisplay() || "未填寫")}</td></tr>
       <tr><th>年齡</th><td>${escapeHtml(calculateAge() || "未填寫")}</td></tr>
       <tr><th>學校 / 機構</th><td>${escapeHtml(field("clientSchool"))}</td></tr>
       <tr><th>評估日期</th><td>${escapeHtml(field("assessmentDate"))}</td></tr>
@@ -489,11 +519,46 @@ function updateAgeDisplay() {
   document.querySelector("#clientAgeText").textContent = calculateAge() || "未填寫";
 }
 
-function calculateAge() {
-  const dobValue = document.querySelector("#clientDob").value;
-  if (!dobValue) return "";
+function populateDobSelectors() {
+  const yearSelect = document.querySelector("#dobYear");
+  const monthSelect = document.querySelector("#dobMonth");
+  const currentYear = new Date().getFullYear();
 
-  const dob = new Date(`${dobValue}T00:00:00`);
+  yearSelect.innerHTML = `<option value="">年</option>` + Array.from({ length: 121 }, (_, index) => {
+    const year = currentYear - index;
+    return `<option value="${year}">${year}年</option>`;
+  }).join("");
+
+  monthSelect.innerHTML = `<option value="">月</option>` + Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    return `<option value="${month}">${month}月</option>`;
+  }).join("");
+
+  updateDobDays();
+}
+
+function updateDobDays() {
+  const daySelect = document.querySelector("#dobDay");
+  const selectedDay = Number(daySelect.value);
+  const year = Number(document.querySelector("#dobYear").value) || 2000;
+  const month = Number(document.querySelector("#dobMonth").value) || 1;
+  const daysInMonth = new Date(year, month, 0).getDate();
+
+  daySelect.innerHTML = `<option value="">日</option>` + Array.from({ length: daysInMonth }, (_, index) => {
+    const day = index + 1;
+    return `<option value="${day}">${day}日</option>`;
+  }).join("");
+
+  if (selectedDay && selectedDay <= daysInMonth) {
+    daySelect.value = String(selectedDay);
+  }
+}
+
+function calculateAge() {
+  const dobParts = getDobParts();
+  if (!dobParts) return "";
+
+  const dob = new Date(dobParts.year, dobParts.month - 1, dobParts.day);
   const assessmentValue = document.querySelector("#assessmentDate").value;
   const referenceDate = assessmentValue ? new Date(`${assessmentValue}T00:00:00`) : new Date();
 
@@ -504,6 +569,20 @@ function calculateAge() {
 
   if (hasNotHadBirthday) age -= 1;
   return Number.isFinite(age) && age >= 0 ? `${age}` : "";
+}
+
+function getDobParts() {
+  const year = Number(document.querySelector("#dobYear").value);
+  const month = Number(document.querySelector("#dobMonth").value);
+  const day = Number(document.querySelector("#dobDay").value);
+  if (!year || !month || !day) return null;
+  return { year, month, day };
+}
+
+function getDobDisplay() {
+  const dobParts = getDobParts();
+  if (!dobParts) return "";
+  return `${dobParts.year}年${dobParts.month}月${dobParts.day}日`;
 }
 
 function formatText(value) {

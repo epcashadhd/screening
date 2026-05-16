@@ -16,6 +16,12 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  touch-action: pan-y;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -24,10 +30,13 @@ body {
   font-family: "Avenir Next", "Helvetica Neue", "PingFang HK", "PingFang TC", "Microsoft JhengHei", sans-serif;
   font-weight: 400;
   line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -78,6 +87,7 @@ textarea {
 .page {
   display: none;
   padding: 22px;
+  min-height: 100dvh;
 }
 
 .page.active {
@@ -147,6 +157,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid var(--line);
@@ -154,11 +165,19 @@ textarea {
   padding: 11px 12px;
   color: var(--ink);
   background: #fbfdfe;
+  font-size: 16px;
   outline: none;
 }
 
-input {
+input,
+select {
   min-height: 46px;
+}
+
+.date-selects {
+  display: grid;
+  grid-template-columns: 1.15fr 0.9fr 0.9fr;
+  gap: 8px;
 }
 
 textarea {
@@ -204,6 +223,7 @@ textarea:focus {
 .client-page {
   max-width: 980px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 
 .client-topbar {
@@ -283,6 +303,16 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--paper);
+}
+
+.question-row.missing-question {
+  border-color: #d98282;
+  background: #fff6f6;
+  box-shadow: 0 0 0 3px rgba(159, 42, 42, 0.08);
+}
+
+.question-row.missing-question .question-number {
+  color: var(--danger);
 }
 
 .question-text {
