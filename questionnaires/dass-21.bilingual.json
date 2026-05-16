@@ -1,0 +1,61 @@
+{
+  "id": "dass-21",
+  "title": "DASS-21",
+  "languages": ["zh", "en"],
+  "purpose": {
+    "zh": "抑鬱、焦慮及壓力症狀篩查及嚴重程度參考",
+    "en": "Screening and severity reference for depression, anxiety, and stress symptoms"
+  },
+  "timeframe": {
+    "zh": "過去一星期",
+    "en": "The past week"
+  },
+  "responseOptions": [
+    {
+      "value": 0,
+      "label": {
+        "zh": "不適用",
+        "en": "Did not apply"
+      }
+    },
+    {
+      "value": 1,
+      "label": {
+        "zh": "頗適用 / 間中適用",
+        "en": "Applied to me to some degree, or some of the time"
+      }
+    },
+    {
+      "value": 2,
+      "label": {
+        "zh": "很適用 / 經常適用",
+        "en": "Applied to me to a considerable degree, or a good part of time"
+      }
+    },
+    {
+      "value": 3,
+      "label": {
+        "zh": "最適用 / 常常適用",
+        "en": "Applied to me very much, or most of the time"
+      }
+    }
+  ],
+  "scaleMap": {
+    "depression": [3, 5, 10, 13, 16, 17, 21],
+    "anxiety": [2, 4, 7, 9, 15, 19, 20],
+    "stress": [1, 6, 8, 11, 12, 14, 18]
+  },
+  "scoring": {
+    "method": "sum_by_scale_then_multiply",
+    "multiplier": 2,
+    "severityBands": {
+      "depression": [["正常", "Normal", "0-9"], ["輕度", "Mild", "10-13"], ["中度", "Moderate", "14-20"], ["嚴重", "Severe", "21-27"], ["極嚴重", "Extremely Severe", "28+"]],
+      "anxiety": [["正常", "Normal", "0-7"], ["輕度", "Mild", "8-9"], ["中度", "Moderate", "10-14"], ["嚴重", "Severe", "15-19"], ["極嚴重", "Extremely Severe", "20+"]],
+      "stress": [["正常", "Normal", "0-14"], ["輕度", "Mild", "15-18"], ["中度", "Moderate", "19-25"], ["嚴重", "Severe", "26-33"], ["極嚴重", "Extremely Severe", "34+"]]
+    }
+  },
+  "source": {
+    "filesReviewed": ["DASS-21 Chi.pdf", "DASS-21 Eng.pdf"],
+    "note": "Chinese PDF had no text layer; item text was manually read from the rendered page image and should be reviewed by the user."
+  }
+}

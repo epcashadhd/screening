@@ -1,0 +1,129 @@
+{
+  "id": "phq9",
+  "version": "zh-HK",
+  "title": "PHQ-9",
+  "fullTitle": "Patient Health Questionnaire-9",
+  "language": "zh-HK",
+  "purpose": "抑鬱症狀篩查及嚴重程度參考",
+  "timeframe": "過去兩個星期",
+  "respondentType": "client",
+  "instructions": "在過去兩個星期，你有多經常受以下問題困擾？請選擇最能代表你情況的答案。",
+  "responseOptions": [
+    {
+      "value": 0,
+      "label": "完全沒有"
+    },
+    {
+      "value": 1,
+      "label": "幾天"
+    },
+    {
+      "value": 2,
+      "label": "一半以上的天數"
+    },
+    {
+      "value": 3,
+      "label": "近乎每天"
+    }
+  ],
+  "items": [
+    {
+      "id": "phq9_1",
+      "number": 1,
+      "text": "做任何事都覺得沉悶或者根本不想做任何事"
+    },
+    {
+      "id": "phq9_2",
+      "number": 2,
+      "text": "情緒低落、抑鬱或絕望"
+    },
+    {
+      "id": "phq9_3",
+      "number": 3,
+      "text": "難於入睡；半夜會醒或相反地睡覺時間過多"
+    },
+    {
+      "id": "phq9_4",
+      "number": 4,
+      "text": "覺得疲倦或活力不足"
+    },
+    {
+      "id": "phq9_5",
+      "number": 5,
+      "text": "胃口極差或進食過量"
+    },
+    {
+      "id": "phq9_6",
+      "number": 6,
+      "text": "不喜歡自己 - 覺得自己做得不好、對自己失望或有負家人期望"
+    },
+    {
+      "id": "phq9_7",
+      "number": 7,
+      "text": "難於集中精神做事，例如看報紙或看電視"
+    },
+    {
+      "id": "phq9_8",
+      "number": 8,
+      "text": "其他人反映你行動或說話遲緩；或者相反地，你比平常活動更多 - 坐立不安、停不下來"
+    },
+    {
+      "id": "phq9_9",
+      "number": 9,
+      "text": "想到自己最好去死或者自殘",
+      "riskFlag": {
+        "triggerWhenGreaterThan": 0,
+        "level": "urgent-review",
+        "message": "第 9 題分數高於 0，需按機構或學校的風險評估及危機處理程序跟進。"
+      }
+    }
+  ],
+  "scoring": {
+    "method": "sum",
+    "scoreRange": {
+      "min": 0,
+      "max": 27
+    },
+    "severityBands": [
+      {
+        "id": "normal",
+        "label": "正常",
+        "min": 0,
+        "max": 4
+      },
+      {
+        "id": "mild",
+        "label": "輕度",
+        "min": 5,
+        "max": 9
+      },
+      {
+        "id": "moderate",
+        "label": "中度",
+        "min": 10,
+        "max": 14
+      },
+      {
+        "id": "moderately_severe",
+        "label": "中度嚴重",
+        "min": 15,
+        "max": 19
+      },
+      {
+        "id": "severe",
+        "label": "嚴重",
+        "min": 20,
+        "max": 27
+      }
+    ]
+  },
+  "reporting": {
+    "summaryLabel": "PHQ-9 總分",
+    "interpretationNote": "PHQ-9 結果只作抑鬱症狀篩查及嚴重程度參考，不能單獨作為臨床診斷。結果需結合臨床訪談、背景資料及專業判斷理解。",
+    "riskNote": "如第 9 題分數高於 0，建議即時進一步了解自傷或自殺風險，並按所屬機構或學校程序處理。"
+  },
+  "source": {
+    "fileReviewed": "PHQ9 - Combined.pdf",
+    "reference": "Kroenke, K., Spitzer, R. L., & Williams, J. B. (2001). The PHQ-9: validity of a brief depression severity measure. Journal of General Internal Medicine, 16(9), 606-613."
+  }
+}

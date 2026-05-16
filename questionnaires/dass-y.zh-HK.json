@@ -1,0 +1,299 @@
+{
+  "id": "dass-y",
+  "version": "zh-HK",
+  "title": "DASS-Y",
+  "fullTitle": "Depression Anxiety Stress Scales - Youth",
+  "language": "zh-HK",
+  "purpose": "抑鬱、焦慮及壓力症狀篩查及嚴重程度參考",
+  "timeframe": "過去一星期",
+  "respondentType": "client",
+  "instructions": "我們想了解你在過去一星期的感受。下面有些句子，請在其右方最能真確地表示你在過去一星期狀況的數字圈出來。答案沒有對與錯。",
+  "responseOptions": [
+    {
+      "value": 0,
+      "label": "不真確"
+    },
+    {
+      "value": 1,
+      "label": "有少少真確"
+    },
+    {
+      "value": 2,
+      "label": "頗為真確"
+    },
+    {
+      "value": 3,
+      "label": "十分真確"
+    }
+  ],
+  "scales": [
+    {
+      "id": "depression",
+      "code": "D",
+      "label": "抑鬱",
+      "englishLabel": "Depression"
+    },
+    {
+      "id": "anxiety",
+      "code": "A",
+      "label": "焦慮",
+      "englishLabel": "Anxiety"
+    },
+    {
+      "id": "stress",
+      "code": "S",
+      "label": "壓力",
+      "englishLabel": "Stress"
+    }
+  ],
+  "items": [
+    {
+      "id": "dass_y_1",
+      "number": 1,
+      "scale": "stress",
+      "text": "我為小事而煩惱"
+    },
+    {
+      "id": "dass_y_2",
+      "number": 2,
+      "scale": "anxiety",
+      "text": "我感到頭暈眼花，就好像我快要暈倒"
+    },
+    {
+      "id": "dass_y_3",
+      "number": 3,
+      "scale": "depression",
+      "text": "我對任何事都不感到興趣"
+    },
+    {
+      "id": "dass_y_4",
+      "number": 4,
+      "scale": "anxiety",
+      "text": "我有呼吸困難（例如呼吸急促），即使我不是正在做運動及沒有生病"
+    },
+    {
+      "id": "dass_y_5",
+      "number": 5,
+      "scale": "depression",
+      "text": "我討厭自己的生活"
+    },
+    {
+      "id": "dass_y_6",
+      "number": 6,
+      "scale": "stress",
+      "text": "我覺得自己對事情反應過大"
+    },
+    {
+      "id": "dass_y_7",
+      "number": 7,
+      "scale": "anxiety",
+      "text": "我感到手震"
+    },
+    {
+      "id": "dass_y_8",
+      "number": 8,
+      "scale": "stress",
+      "text": "我對很多事情感到有壓力"
+    },
+    {
+      "id": "dass_y_9",
+      "number": 9,
+      "scale": "anxiety",
+      "text": "我感到恐懼"
+    },
+    {
+      "id": "dass_y_10",
+      "number": 10,
+      "scale": "depression",
+      "text": "沒有什麼好事情是我可以期待的"
+    },
+    {
+      "id": "dass_y_11",
+      "number": 11,
+      "scale": "stress",
+      "text": "我很容易煩燥不安"
+    },
+    {
+      "id": "dass_y_12",
+      "number": 12,
+      "scale": "stress",
+      "text": "我覺得很難放鬆下來"
+    },
+    {
+      "id": "dass_y_13",
+      "number": 13,
+      "scale": "depression",
+      "text": "我無法停止感到傷心難過"
+    },
+    {
+      "id": "dass_y_14",
+      "number": 14,
+      "scale": "stress",
+      "text": "當別人打擾我時，我很生氣"
+    },
+    {
+      "id": "dass_y_15",
+      "number": 15,
+      "scale": "anxiety",
+      "text": "我感到自己快要恐慌了"
+    },
+    {
+      "id": "dass_y_16",
+      "number": 16,
+      "scale": "depression",
+      "text": "我討厭自己"
+    },
+    {
+      "id": "dass_y_17",
+      "number": 17,
+      "scale": "depression",
+      "text": "我覺得自己一無是處"
+    },
+    {
+      "id": "dass_y_18",
+      "number": 18,
+      "scale": "stress",
+      "text": "我很容易生氣"
+    },
+    {
+      "id": "dass_y_19",
+      "number": 19,
+      "scale": "anxiety",
+      "text": "我能感覺到我的心跳得非常快，即使我沒有做任何劇烈運動"
+    },
+    {
+      "id": "dass_y_20",
+      "number": 20,
+      "scale": "anxiety",
+      "text": "我無緣無故感到害怕"
+    },
+    {
+      "id": "dass_y_21",
+      "number": 21,
+      "scale": "depression",
+      "text": "我覺得生活很痛苦"
+    }
+  ],
+  "scoring": {
+    "method": "sum_by_scale_then_multiply",
+    "multiplier": 2,
+    "rawScoreRangePerScale": {
+      "min": 0,
+      "max": 21
+    },
+    "finalScoreRangePerScale": {
+      "min": 0,
+      "max": 42
+    },
+    "severityBands": {
+      "depression": [
+        {
+          "id": "normal",
+          "label": "正常",
+          "min": 0,
+          "max": 9
+        },
+        {
+          "id": "mild",
+          "label": "輕度",
+          "min": 10,
+          "max": 13
+        },
+        {
+          "id": "moderate",
+          "label": "中度",
+          "min": 14,
+          "max": 20
+        },
+        {
+          "id": "severe",
+          "label": "嚴重",
+          "min": 21,
+          "max": 27
+        },
+        {
+          "id": "extremely_severe",
+          "label": "極嚴重",
+          "min": 28,
+          "max": 42
+        }
+      ],
+      "anxiety": [
+        {
+          "id": "normal",
+          "label": "正常",
+          "min": 0,
+          "max": 7
+        },
+        {
+          "id": "mild",
+          "label": "輕度",
+          "min": 8,
+          "max": 9
+        },
+        {
+          "id": "moderate",
+          "label": "中度",
+          "min": 10,
+          "max": 14
+        },
+        {
+          "id": "severe",
+          "label": "嚴重",
+          "min": 15,
+          "max": 19
+        },
+        {
+          "id": "extremely_severe",
+          "label": "極嚴重",
+          "min": 20,
+          "max": 42
+        }
+      ],
+      "stress": [
+        {
+          "id": "normal",
+          "label": "正常",
+          "min": 0,
+          "max": 14
+        },
+        {
+          "id": "mild",
+          "label": "輕度",
+          "min": 15,
+          "max": 18
+        },
+        {
+          "id": "moderate",
+          "label": "中度",
+          "min": 19,
+          "max": 25
+        },
+        {
+          "id": "severe",
+          "label": "嚴重",
+          "min": 26,
+          "max": 33
+        },
+        {
+          "id": "extremely_severe",
+          "label": "極嚴重",
+          "min": 34,
+          "max": 42
+        }
+      ]
+    }
+  },
+  "reporting": {
+    "summaryLabels": {
+      "depression": "抑鬱分數",
+      "anxiety": "焦慮分數",
+      "stress": "壓力分數"
+    },
+    "interpretationNote": "DASS-Y 結果只作抑鬱、焦慮及壓力症狀篩查及嚴重程度參考，不能單獨作為臨床診斷。結果需結合臨床訪談、背景資料及專業判斷理解。"
+  },
+  "source": {
+    "fileReviewed": "DASS-Y-Combined.pdf",
+    "reference": "Lovibond, S.H. & Lovibond, P.F. (1995). Manual for the Depression Anxiety & Stress Scales. 2nd Ed. Sydney: Psychology Foundation."
+  }
+}

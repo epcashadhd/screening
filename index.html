@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>情緒健康評估平台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Screening & Report</p>
+        <h1>情緒健康評估平台</h1>
+      </div>
+      <div class="header-status" id="pageStatus">設定問卷</div>
+    </header>
+
+    <main>
+      <section id="setupPage" class="page page-narrow active" aria-labelledby="setupTitle">
+        <div class="panel">
+          <div class="section-heading">
+            <p class="eyebrow">Step 1</p>
+            <h2 id="setupTitle">背景資料及問卷設定</h2>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              個案姓名 / 編號
+              <input id="clientName" type="text" />
+            </label>
+            <label class="dob-field">
+              <span class="field-label-row">
+                <span>出生日期</span>
+                <span class="age-preview">年齡：<strong id="clientAgeText">未填寫</strong></span>
+              </span>
+              <input id="clientDob" type="date" />
+            </label>
+            <label>
+              學校 / 機構
+              <input id="clientSchool" type="text" placeholder="可留空" />
+            </label>
+            <label>
+              評估日期
+              <input id="assessmentDate" type="date" />
+            </label>
+            <label class="wide">
+              選擇問卷
+              <div class="segmented" role="radiogroup" aria-label="選擇問卷">
+                <button class="segment active" type="button" data-questionnaire="phq9">PHQ-9</button>
+                <button class="segment" type="button" data-questionnaire="dass-y">DASS-Y</button>
+                <button class="segment" type="button" data-questionnaire="dass-21">DASS-21</button>
+              </div>
+            </label>
+            <label class="wide">
+              顯示語言
+              <div class="segmented language-segmented" role="radiogroup" aria-label="選擇語言">
+                <button class="language-segment active" type="button" data-language="zh">中文</button>
+                <button class="language-segment" type="button" data-language="en">English</button>
+                <button class="language-segment" type="button" data-language="bilingual">雙語</button>
+              </div>
+            </label>
+            <label>
+              結果密碼
+              <input id="resultPassword" type="password" autocomplete="new-password" placeholder="查看結果密碼" />
+            </label>
+            <label>
+              確認密碼
+              <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="再次輸入密碼" />
+            </label>
+            <label class="wide">
+              備註
+              <textarea id="clientNotes" rows="3" placeholder="可留空"></textarea>
+            </label>
+          </div>
+
+          <div id="setupError" class="inline-error hidden"></div>
+
+          <div class="actions single-action">
+            <button id="startButton" class="primary-button" type="button">開始給學生填寫</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="clientPage" class="page client-page" aria-labelledby="clientQuestionnaireTitle">
+        <div class="client-topbar">
+          <div>
+            <p class="eyebrow">Step 2</p>
+            <h2 id="clientQuestionnaireTitle">問卷填寫</h2>
+          </div>
+          <div id="completionStatus" class="header-status">0/9 已完成</div>
+        </div>
+
+        <div class="legend-panel">
+          <h3 id="selectedTitle">PHQ-9</h3>
+          <p id="selectedInstructions"></p>
+          <div id="optionLegend" class="option-legend"></div>
+        </div>
+
+        <form id="questionnaireForm" class="question-list"></form>
+
+        <div id="clientError" class="inline-error hidden"></div>
+        <button id="submitButton" class="primary-button submit-button" type="button">提交問卷</button>
+      </section>
+
+      <section id="unlockPage" class="page page-narrow" aria-labelledby="unlockTitle">
+        <div class="panel">
+          <div class="section-heading">
+            <p class="eyebrow">Step 3</p>
+            <h2 id="unlockTitle">問卷已提交</h2>
+          </div>
+          <p class="calm-text">謝謝你完成問卷。請把裝置交回負責老師或專業人員。</p>
+          <label>
+            結果密碼
+            <input id="unlockPassword" type="password" autocomplete="current-password" placeholder="由專業人員輸入" />
+          </label>
+          <div id="unlockError" class="inline-error hidden"></div>
+          <div class="actions">
+            <button id="backToClientButton" class="secondary-button" type="button">返回修改答案</button>
+            <button id="unlockButton" class="primary-button" type="button">查看結果</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="resultPage" class="page result-page" aria-labelledby="resultTitle">
+        <div class="result-layout">
+          <section class="panel">
+            <div class="section-heading">
+              <p class="eyebrow">Result</p>
+              <h2 id="resultTitle">結果摘要</h2>
+            </div>
+            <div id="resultSummary" class="result-summary"></div>
+            <div id="riskNotice" class="risk-notice hidden" role="alert"></div>
+            <label>
+              報告備註
+              <textarea id="reportNotes" rows="4" placeholder="可加入專業觀察、建議或跟進安排"></textarea>
+            </label>
+            <div class="actions">
+              <button id="newAssessmentButton" class="secondary-button" type="button">重新開始</button>
+              <button id="printButton" class="primary-button" type="button">列印 / 儲存 PDF</button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="section-heading">
+              <p class="eyebrow">Rubric</p>
+              <h2>評分準則</h2>
+            </div>
+            <div id="rubricSummary" class="rubric-summary"></div>
+            <p class="disclaimer">
+              結果只作篩查及嚴重程度參考，不能單獨作為臨床診斷。請配合臨床訪談、背景資料及專業判斷理解。
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <section id="printReport" class="print-report" aria-label="列印報告"></section>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
