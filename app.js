@@ -442,8 +442,13 @@ function buildPrintReport() {
     const label = value === undefined
       ? "未作答"
       : formatText(questionnaire.responseOptions.find((option) => option.value === value).label);
-    return `<tr><td>${item.number}</td><td>${formatText(item.text)}</td><td>${value === undefined ? "-" : value}</td><td>${label}</td></tr>`;
+    const scaleCell = questionnaire.scoring.type === "multi" ? `<td>${scaleCode(item.scale)}</td>` : "";
+    return `<tr><td>${item.number}</td>${scaleCell}<td>${formatText(item.text)}</td><td>${value === undefined ? "-" : value}</td><td>${label}</td></tr>`;
   }).join("");
+
+  const answerHeader = questionnaire.scoring.type === "multi"
+    ? "<tr><th>題號</th><th>類別</th><th>題目</th><th>分數</th><th>答案</th></tr>"
+    : "<tr><th>題號</th><th>題目</th><th>分數</th><th>答案</th></tr>";
 
   printReport.innerHTML = `
     <h1>心理篩查結果摘要</h1>
@@ -474,7 +479,7 @@ function buildPrintReport() {
 
     <h2>作答紀錄</h2>
     <table>
-      <tr><th>題號</th><th>題目</th><th>分數</th><th>答案</th></tr>
+      ${answerHeader}
       ${answerRows}
     </table>
 
@@ -517,6 +522,14 @@ function resetAll() {
 
 function currentQuestionnaire() {
   return questionnaires[state.selected];
+}
+
+function scaleCode(scale) {
+  return {
+    depression: "D",
+    anxiety: "A",
+    stress: "S"
+  }[scale] || "";
 }
 
 function updateAgeDisplay() {
